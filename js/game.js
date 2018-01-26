@@ -103,6 +103,19 @@
 
       enemiesHit.forEach( destroyEnemy );
     }
+
+    enemiesHit = enemies.children
+    .filter( enemy => enemy.overlap(player) );
+
+    if( enemiesHit.length){
+      handlePlayerHit();
+
+      enemiesHit.forEach( destroyEnemy );
+    }
+  }
+
+  function handlePlayerHit() {
+    gameOver();
   }
 
   function randomlySpawnEnemy() {
@@ -126,6 +139,11 @@
 
   function destroyEnemy(enemy) {
     enemy.kill();
+  }
+
+  function gameOver() {
+    game.state.destroy();
+    game.add.text(90, 200, 'YOUR HEAD ASPLODE', { fill: '#FFFFFF' });
   }
 
 })(window.Phaser);
