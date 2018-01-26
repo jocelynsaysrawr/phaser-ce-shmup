@@ -5,6 +5,7 @@
   const GAME_CONTAINER_ID = 'game';
   const GFX = 'gfx';
   const INITIAL_MOVESPEED = 4;
+  const SQRT_TWO = Math.sqrt(2);
 
   const game = new Phaser.Game(GAME_WIDTH, GAME_HEIGHT, Phaser.AUTO, GAME_CONTAINER_ID, { preload, create, update });
 
@@ -25,20 +26,28 @@
 
   //handler function
   function handlePlayerMovement() {
+    let movingH = SQRT_TWO;
+    let movingV = SQRT_TWO;
+    if( cursors.up.isDown || cursors.down.isDown){
+      movingH = 1; // slow down diagonal movement
+    }
+    if( cursors.left.isDown || cursors.right.isDown){
+      movingV = 1; // slow down diagonal movement
+    }
     switch( true ){
       case cursors.left.isDown:
-        player.x -= player.moveSpeed;
+        player.x -= player.moveSpeed * movingH;
         break;
       case cursors.right.isDown:
-        player.x += player.moveSpeed;
+        player.x += player.moveSpeed * movingH;
         break;
     }
     switch( true ){
       case cursors.down.isDown:
-        player.y += player.moveSpeed;
+        player.y += player.moveSpeed * movingV;
         break;
       case cursors.up.isDown:
-        player.y -= player.moveSpeed;
+        player.y -= player.moveSpeed * movingV;
         break;
     }
   }
