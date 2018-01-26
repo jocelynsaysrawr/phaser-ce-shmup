@@ -29,6 +29,12 @@
     playerBullets = game.add.group();
   }
 
+  function update() {
+    handlePlayerMovement();
+    handleBulletAnimations();
+    cleanup()
+  }
+
   //handler function
   function handlePlayerMovement() {
     let movingH = SQRT_TWO;
@@ -65,9 +71,11 @@
     playerBullets.children.forEach( bullet => bullet.y -= PLAYER_BULLET_SPEED );
   }
 
-  function update() {
-    handlePlayerMovement();
-    handleBulletAnimations();
+  //utility functions
+  function cleanup() {
+    playerBullets.children
+      .filter( bullet => bullet.y < -14 )
+      .forEach( bullet => bullet.destroy() );
   }
 
 })(window.Phaser);
